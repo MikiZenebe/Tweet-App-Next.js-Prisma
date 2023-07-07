@@ -3,7 +3,7 @@ import React from "react";
 import Login from "./Login";
 import Logged from "./Logged";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../pages/api/auth/[...nextauth]";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Nav() {
   const session = await getServerSession(authOptions);
