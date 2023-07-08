@@ -1,13 +1,29 @@
 "use client";
 
 import React, { useState } from "react";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 export default function AddPost() {
   const [title, setTitle] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
 
+  //Create a post
+  const { mutate } = useMutation(
+    async (title) => await axios.post("/api/posts/addPost", { title })
+  );
+
+  const submitPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsDisabled(true);
+    mutate(title);
+  };
+
   return (
-    <form className="bg-white drop-shadow-lg  my-8 p-5 rounded-lg">
+    <form
+      onSubmit={submitPost}
+      className="bg-white drop-shadow-lg  my-8 p-5 rounded-lg"
+    >
       <div className="flex flex-col my-2">
         <p className="text-md font-semibold text-cyan-900 pb-4">
           Add a new post
@@ -31,9 +47,13 @@ export default function AddPost() {
           disabled={isDisabled}
           type="submit"
           className={`${`transition-all duration-[300ms]
-ease-out hover:bg-cyan-900 hover:text-white text-sm border-cyan-900 border-2 py-1.5 px-2 rounded-md text-cyan-900 font-semibold`}`}
+ease-out hover:bg-cyan-900 hover:text-white text-sm border-cyan-900 border-2 py-1.5 px-2 rounded-md text-cyan-900 font-semibold`} ${
+            isDisabled
+              ? "cursor-not-allowed hover:bg-white hover:text-cyan-900"
+              : ""
+          }`}
         >
-          Create a Post
+          {isDisabled ? "Loading..." : "Create a Post"}
         </button>
       </div>
     </form>
