@@ -2,11 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { AiOutlineComment } from "react-icons/ai";
 
 type postProps = {
   name: string;
   avatar: any;
   postTitle: string;
+  comments: string;
+  id: any;
 };
 
 export default function Posts(props: postProps) {
@@ -25,6 +28,17 @@ export default function Posts(props: postProps) {
 
       <div className="my-4">
         <p className="break-all">{props.postTitle}</p>
+      </div>
+
+      <div className="flex gap-4 cursor-pointer items-center">
+        <Link href={`/post/${props.id}`}>
+          <p className="relative flex gap-2 items-center text-md font-bold text-gray-700">
+            <AiOutlineComment />{" "}
+            <span className="absolute left-2.5 bottom-[5px] bg-red-600 text-white text-sm h-4 w-4 flex items-center justify-center rounded-full">
+              {props.comments?.length}
+            </span>
+          </p>
+        </Link>
       </div>
     </div>
   );
